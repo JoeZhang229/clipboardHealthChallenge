@@ -24,6 +24,7 @@ Allowing a facility to have a custom agent IDs means we will have to create vari
 
 ![database structure to link custom ID to database ID](./agentIDs.png)
 
+Breakdown on how the existing process is handled.
 ```
     function getShiftsByFacility(facilityId) {
         returns shifts worked by Quarter, and agents' info associated with the shifts
@@ -34,11 +35,28 @@ Allowing a facility to have a custom agent IDs means we will have to create vari
         returns table as PDF
     }
 ```
+### Ticket #1
+Agent database ID is saved as a separate database table based on facility and facility's custom ID. Priorty is on saving individual agent info before working on functionality for processing multiple agents.
+
+#### Acceptance Criteria
+Have a function that accepts
+-   agent's internal database id
+-   facility's custom agent id
+
+Saves the custom id into a separate table belonging to the facility and associated with the agent's database table.
+
+#### Time/Effort estimates
+Saving an individual agent's id into the database can be handled in a day, or up to a few days depending on the complexity of the database. I am confident it should not take too long since you are just converting IDs. A potential complexity added would be how the facility is creating the custom IDs (randomly or manually), since you may have to check for duplicate IDs.
+
+#### Implementation details
+The function takes in two parameters (agent database id, facility custom id).
+The custom id points to the database ID instead of duplicating agent info per facility to save database space and be more efficient. Allows dynamic flexiblity for every new facility needing access to agent info.
+
+One potential implementation would have the function randomly generate a custom ID based on facility's needs, and check if there are any duplicates in the existing database.
+
+### Ticket #2
 
 For a new process, we would need various functions to:
-    - Save agent info based on facility custom ID
-        Various methods to solve this?:
-            New database table storing custom agent ID associating/pointing with database ID
     - Save shifts associated to agents based on new ID
     - Get all shifts in facility based on Facility's custom agent ID
     - Generate report of agent's list of shifts based on facility's custom ID

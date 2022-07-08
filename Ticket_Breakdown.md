@@ -16,3 +16,30 @@ Based on the information given, break this ticket down into 2-5 individual ticke
 You will be graded on the level of detail in each ticket, the clarity of the execution plan within and between tickets, and the intelligibility of your language. You don't need to be a native English speaker, but please proof-read your work.
 
 ## Your Breakdown Here
+
+## Preface
+
+Allowing a facility to have a custom agent IDs means we will have to create various functions to convert the custom ID to match the database ID. To store the custom IDs, each facility is given a separate table that will point to the database ID. This allows for less duplicate agent info in the database.
+
+
+![database structure to link custom ID to database ID](./agentIDs.png)
+
+```
+    function getShiftsByFacility(facilityId) {
+        returns shifts worked by Quarter, and agents' info associated with the shifts
+    }
+
+    function generateReport(shiftList) {
+        converts entire facility shift table to PDF
+        returns table as PDF
+    }
+```
+
+For a new process, we would need various functions to:
+    - Save agent info based on facility custom ID
+        Various methods to solve this?:
+            New database table storing custom agent ID associating/pointing with database ID
+    - Save shifts associated to agents based on new ID
+    - Get all shifts in facility based on Facility's custom agent ID
+    - Generate report of agent's list of shifts based on facility's custom ID
+    - Generate reports of multiple agents
